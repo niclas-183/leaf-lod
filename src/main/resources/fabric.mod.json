@@ -1,0 +1,42 @@
+{
+	"schemaVersion": 1,
+	"id": "leaflod",
+	"version": "${version}",
+	"name": "Leaf LOD",
+	"description": "Keeps the full model of bushy-leaves resource packs (e.g. Vervada's enhanced plants) only near you: farther away, leaves are drawn as plain cubes and grass and ferns as a simple cross. Saves a lot of GPU work in dense forests without changing the look around you. The resource pack itself stays untouched.",
+	"icon": "assets/leaflod/icon.png",
+	"authors": [
+		"Niclas"
+	],
+	"contact": {
+		"homepage": "https://modrinth.com/mod/leaf-lod",
+		"sources": "https://github.com/niclas-183/leaf-lod",
+		"issues": "https://github.com/niclas-183/leaf-lod/issues"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"de.niclas.leaflod.LeafLodClient"
+		],
+		"modmenu": [
+			"de.niclas.leaflod.compat.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"leaflod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.5",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api-base": "*",
+		"fabric-lifecycle-events-v1": "*",
+		"fabric-model-loading-api-v1": "*",
+		"fabric-renderer-api-v1": "*"
+	},
+	"recommends": {
+		"modmenu": "*",
+		"cloth-config": "*"
+	}
+}

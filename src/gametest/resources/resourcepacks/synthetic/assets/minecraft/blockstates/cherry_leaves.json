@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"": [
+			{"model": "minecraft:block/cherry_leaves"},
+			{"model": "minecraft:block/leaflod_test_planes_only"},
+			{"model": "minecraft:block/leaflod_test_planes_only", "y": 90},
+			{"model": "minecraft:block/leaflod_test_short_box", "y": 180}
+		]
+	}
+}

@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "de.niclas.leaflod.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ClientLevelMixin",
+		"WeightedVariantsAccessor"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

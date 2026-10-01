@@ -1,0 +1,22 @@
+{
+	"schemaVersion": 1,
+	"id": "leaflod-gametest",
+	"version": "1.0.0",
+	"name": "Leaf LOD game test",
+	"description": "Automated client smoke test for Leaf LOD (dev only; contains a built-in pack with self-made heavy test models).",
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"de.niclas.leaflod.gametest.SyntheticPackRegistration"
+		],
+		"fabric-client-gametest": [
+			"de.niclas.leaflod.gametest.LeafLodClientGameTest",
+			"de.niclas.leaflod.gametest.RealPackGameTest"
+		]
+	},
+	"depends": {
+		"leaflod": "*",
+		"fabric-resource-loader-v1": "*"
+	}
+}

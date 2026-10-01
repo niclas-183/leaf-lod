@@ -1,0 +1,28 @@
+{
+	"credit": "Leaf LOD gametest model (self-made): only the two tilted planes, no cube - a random variant without cube faces.",
+	"parent": "block/block",
+	"textures": {
+		"all": "block/cherry_leaves",
+		"particle": "#all"
+	},
+	"elements": [
+		{
+			"from": [-4, -4, 8],
+			"to": [20, 20, 8],
+			"rotation": {"angle": -22.5, "axis": "x", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#all"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#all"}
+			}
+		},
+		{
+			"from": [8, -4, -4],
+			"to": [8, 20, 20],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"west": {"uv": [0, 0, 16, 16], "texture": "#all"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#all"}
+			}
+		}
+	]
+}

@@ -1,0 +1,121 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+base {
+	archivesName = project.archives_base_name
+}
+
+repositories {
+	// Modrinth Maven (official) for Mod Menu, Cloth Config and the dev-runtime mods (Sodium, Iris).
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Modrinth"
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+// Automated in-game smoke test (src/gametest, not part of the release jar): ./gradlew runClientGameTest
+fabricApi {
+	configureTests {
+		createSourceSet = true
+		modId = "leaflod-gametest"
+		enableGameTests = false
+		enableClientGameTests = true
+		eula = false
+	}
+}
+
+loom {
+	runs {
+		configureEach {
+			vmArg "-Dleaflod.debug=true"
+			// Dev client heap limit (keeps test runs small next to a running game)
+			vmArg "-Xmx3G"
+			// Optional: run the gametest with a real resource pack (zip is only read and copied into the run dir)
+			if (project.findProperty("dev_real_pack")) {
+				vmArg "-Dleaflod.realPack=${project.findProperty("dev_real_pack")}"
+			}
+			// Optional: enable this Iris shader pack (folder or zip, only read and copied) in the real-pack test
+			if (project.findProperty("dev_shader_pack")) {
+				vmArg "-Dleaflod.shaderPack=${project.findProperty("dev_shader_pack")}"
+			}
+			// Optional: skip the synthetic test (e.g. for real-pack runs) / render real-pack screenshots at WxH
+			if (project.findProperty("dev_skip_synthetic") == "true") {
+				vmArg "-Dleaflod.skipSynthetic=true"
+			}
+			if (project.findProperty("dev_screenshot_size")) {
+				vmArg "-Dleaflod.screenshotSize=${project.findProperty("dev_screenshot_size")}"
+			}
+		}
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+	// Optional integrations (not bundled)
+	compileOnly "maven.modrinth:modmenu:${project.modmenu_version}"
+	compileOnly "maven.modrinth:cloth-config:${project.cloth_config_version}"
+	gametestCompileOnly "maven.modrinth:modmenu:${project.modmenu_version}"
+	// Shader test in the real-pack gametest (only loaded when -Pdev_shader_pack is given)
+	gametestCompileOnly "maven.modrinth:iris:${project.iris_version}"
+	gametestCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
+
+	// Dev runtime only (runClient / runClientGameTest). Disable with -Pdev_sodium=false to test the vanilla renderer path,
+	// with -Pdev_modmenu=false to test without Mod Menu and Cloth Config.
+	if (project.findProperty("dev_modmenu") != "false") {
+		localRuntime "maven.modrinth:modmenu:${project.modmenu_version}"
+		localRuntime "maven.modrinth:cloth-config:${project.cloth_config_version}"
+	}
+	if (project.findProperty("dev_sodium") != "false") {
+		localRuntime "maven.modrinth:sodium:${project.sodium_version}"
+		localRuntime "maven.modrinth:iris:${project.iris_version}"
+	}
+	// Compatibility smoke test with other model/culling mods: -Pdev_compat=true
+	if (project.findProperty("dev_compat") == "true") {
+		localRuntime "maven.modrinth:continuity:${project.continuity_version}"
+		localRuntime "maven.modrinth:moreculling:${project.moreculling_version}"
+	}
+	// Distant Horizons in the dev runtime: -Pdev_dh=true
+	if (project.findProperty("dev_dh") == "true") {
+		localRuntime "maven.modrinth:distanthorizons:${project.distanthorizons_version}"
+	}
+}
+
+processResources {
+	def version = project.version
+	inputs.property "version", version
+
+	filesMatching("fabric.mod.json") {
+		expand "version": version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 25
+	it.options.encoding = "UTF-8"
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+	def projectName = project.name
+	inputs.property "projectName", projectName
+
+	from("LICENSE") {
+		rename { "${it}_$projectName" }
+	}
+}

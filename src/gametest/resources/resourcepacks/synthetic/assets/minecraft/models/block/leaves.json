@@ -1,0 +1,39 @@
+{
+	"credit": "Leaf LOD gametest model (self-made): unit cube plus two tilted 24x24 planes through the block centre, one in the x/y plane tilted about x, one in the z/y plane tilted about z. The planes reach into the edge neighbours (+-x,+-y,0) / (0,+-y,+-z) and above the block top, but not into the horizontal diagonal neighbours.",
+	"parent": "block/block",
+	"textures": {
+		"particle": "#all"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"down":  {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "down"},
+				"up":    {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "up"},
+				"north": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "north"},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "south"},
+				"west":  {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "west"},
+				"east":  {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0, "cullface": "east"}
+			}
+		},
+		{
+			"from": [-4, -4, 8],
+			"to": [20, 20, 8],
+			"rotation": {"angle": 22.5, "axis": "x", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0},
+				"south": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0}
+			}
+		},
+		{
+			"from": [8, -4, -4],
+			"to": [8, 20, 20],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [8, 8, 8]},
+			"faces": {
+				"west": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#all", "tintindex": 0}
+			}
+		}
+	]
+}
